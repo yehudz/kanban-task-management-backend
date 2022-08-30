@@ -9,35 +9,56 @@ module.exports = router
 // Create a new board
 router.use(express.json())
 router.post('/', async (req, res)=> {
-  console.log(req.body)
+  try {
+    const {name, columns} = req.body;
+    const newBoard = await db.query("INSERT INTO board(name) VALUES($1) RETURNING *", 
+    [name])
+    res.json(newBoard.rows[0])
+  } catch (error) {
+    console.log(error)
+  }
+  
 })
 
 // Get all boards
 router.get('/', async (req, res)=> {
-  res.status(200).json({
-    status: "success",
-    data: {
-      board: {name: "First board"}
-    }
-  })
+  try {
+    const result = await db.query('SELECT * FROM board')
+    res.json(result.rows)
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 // Get one board
 router.get('/:id', async (req, res)=> {
-  const { id } = req.params;
-  console.log(id)
+  try {
+    const { id } = req.params;
+    const result = await db.query('SELECT * FROM board WHERE id = $1', [id])
+    res.json(result.rows[0])
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 // Update board
 router.use(express.json())
 router.put('/:id', async (req, res)=> {
-  const { id } = req.params;
-  console.log(req.body)
-  console.log(id)
+  const { id } = req.params
+  const { name } = req.body
+  try {
+    const updateBoard = await db.query(
+      "UPDATE board SET name = $1 WHERE id = $2 RETURNING *", 
+    [name, id])
+    res.json(updateBoard.rows[0])
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 // Delete board
 router.delete('/:id', async(req, res)=> {
   const { id } = req.params;
-  console.log(id)
+  await db.query("DELETE FROM board WHERE id = $1", [id])
+  res.json('Board was deleted')
 })
