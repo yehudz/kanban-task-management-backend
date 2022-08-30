@@ -35,6 +35,12 @@ app.get('/api/v2/boards', (req, res)=> {
   })
 })
 
+// Get one board
+app.get('/api/v2/boards/:id', (req, res)=> {
+  const { id } = req.params;
+  console.log(id)
+})
+
 app.listen(port, ()=> {
   console.log(`App listenning on port ${port}`)
 })
