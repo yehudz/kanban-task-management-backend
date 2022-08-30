@@ -14,10 +14,11 @@ router.post('/', async (req, res)=> {
     const newBoard = await db.query("INSERT INTO board(name) VALUES($1) RETURNING *", 
     [name])
     const boardId = newBoard.rows[0].id;
-    columns.forEach(async (column)=> {
+    columns.forEach(async (column, idx)=> {
       if (!columns) return
-      await db.query("INSERT INTO boardColumn (name, board_id) VALUES($1, $2) RETURNING *", 
-      [column.name, boardId])
+      await db.query(
+        "INSERT INTO boardColumn (name, board_id, column_order) VALUES($1, $2, $3) RETURNING *", 
+      [column.name, boardId, idx + 1])
     })
     res.json(newBoard.rows[0])
   } catch (error) {
