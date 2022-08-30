@@ -4,12 +4,13 @@ const app = express()
 const port = process.env.PORT || 3001
 
 const { Client } = require('pg')
+
 const client = new Client({
-  user: process.env.USER,
+  user: process.env.DBUSER,
   host: 'ec2-44-207-126-176.compute-1.amazonaws.com',
   database: 'deibatppg99v10',
   password: process.env.PASSWORD,
-  port: process.env.PORT,
+  port: 5432,
   ssl: {
     rejectUnauthorized: false
   }
@@ -21,8 +22,15 @@ client.query('SELECT NOW()', (err, res) => {
   client.end()
 })
 
-app.get('/getBoards', (req, res)=> {
-  res.send('Hello world')
+
+// Get all boards
+app.get('/api/v2/boards', (req, res)=> {
+  res.status(200).json({
+    status: "success",
+    data: {
+      board: {name: "First board"}
+    }
+  })
 })
 
 app.listen(port, ()=> {
