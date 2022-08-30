@@ -49,6 +49,12 @@ app.put('/api/v2/boards/:id', async (req, res)=> {
   console.log(id)
 })
 
+// Delete board
+app.delete('/api/v2/boards/:id', async(req, res)=> {
+  const { id } = req.params;
+  console.log(id)
+})
+
 app.listen(port, ()=> {
   console.log(`App listenning on port ${port}`)
 })
