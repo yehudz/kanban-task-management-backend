@@ -26,7 +26,7 @@ app.post('/api/v2/boards', async (req, res)=> {
 
 
 // Get all boards
-app.get('/api/v2/boards', (req, res)=> {
+app.get('/api/v2/boards', async (req, res)=> {
   res.status(200).json({
     status: "success",
     data: {
@@ -36,8 +36,16 @@ app.get('/api/v2/boards', (req, res)=> {
 })
 
 // Get one board
-app.get('/api/v2/boards/:id', (req, res)=> {
+app.get('/api/v2/boards/:id', async (req, res)=> {
   const { id } = req.params;
+  console.log(id)
+})
+
+// Update board
+app.use(express.json())
+app.put('/api/v2/boards/:id', async (req, res)=> {
+  const { id } = req.params;
+  console.log(req.body)
   console.log(id)
 })
 
