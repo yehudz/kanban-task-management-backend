@@ -35,7 +35,16 @@ router.get('/:id', async (req, res)=> {
 // Update subtask name and completed
 router.use(express.json())
 router.put('/:id', async (req, res)=> {
-  
+ try {
+  const { id } = req.params;
+  const { title, completed } = req.body;
+  await db.query(
+    "UPDATE subtask SET title = $1, completed = $2 WHERE id = $3", 
+    [title, completed, id])
+  res.status(200).json("Subtask updated")
+ } catch (error) {
+  console.log(error)
+ }
 })
 
 // Delete tasks from board column
