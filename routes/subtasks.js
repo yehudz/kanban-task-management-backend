@@ -20,13 +20,19 @@ router.post('/', async (req, res)=> {
   }
 })
 
-// Get all tasks related to a board column
+// Get all subtasks related to a task
 router.use(express.json())
 router.get('/:id', async (req, res)=> {
-  
+  const { id } = req.params;
+  try {
+    const substasks = await db.query('SELECT * FROM subtask WHERE task_id = $1', [id])
+    res.json(substasks.rows)
+  } catch (error) {
+    console.log(error)
+  }
 })
 
-// Update tasks name only
+// Update subtask name and completed
 router.use(express.json())
 router.put('/:id', async (req, res)=> {
   
