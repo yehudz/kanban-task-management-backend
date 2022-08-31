@@ -22,3 +22,12 @@ CREATE TABLE task (
   description VARCHAR(500),
   CONSTRAINT fk_board_column_id FOREIGN KEY(board_column_id) REFERENCES boardColumn(id) on delete cascade
 );
+
+CREATE TABLE subtask (
+  id uuid DEFAULT uuid_generate_v4 (),
+  PRIMARY KEY (id),
+  task_id uuid NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  completed BOOLEAN NOT NULL,
+  CONSTRAINT fk_task_id FOREIGN KEY(task_id) REFERENCES task(id) on delete cascade
+)
