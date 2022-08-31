@@ -49,5 +49,11 @@ router.put('/:id', async (req, res)=> {
 
 // Delete tasks from board column
 router.delete('/:id', async(req, res)=> {
-  
+  try {
+    const { id } = req.params;
+    await db.query("DELETE FROM subtask WHERE id = $1", [id])
+    res.status(200).json("Task deleted")
+  } catch (error) {
+    console.log(error)
+  }
 })
