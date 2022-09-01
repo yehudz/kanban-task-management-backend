@@ -4,7 +4,7 @@
   "description": "Kanban task management backend services",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "DATABASE_URL=$(heroku config:get DATABASE_URL -a kanban-task-management-backend) nodemon index.js"
   },
   "repository": {
     "type": "git",

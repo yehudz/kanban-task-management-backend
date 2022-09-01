@@ -1,12 +1,9 @@
 require('dotenv').config()
 const { Client } = require('pg')
 
+const connectionString = process.env.DATABASE_URL
 const client = new Client({
-  user: process.env.DBUSER,
-  host: 'ec2-44-207-126-176.compute-1.amazonaws.com',
-  database: 'deibatppg99v10',
-  password: process.env.PASSWORD,
-  port: 5432,
+  connectionString,
   ssl: {
     rejectUnauthorized: false
   }

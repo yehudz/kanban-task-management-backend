@@ -24,10 +24,10 @@ router.get('/:boardId', async (req, res)=> {
 router.use(express.json())
 router.post('/', async (req, res)=> {
   try {
-     const {name, boardId, order} = req.body;
+     const {name, boardId, order, color} = req.body;
     await db.query(
-      "INSERT INTO boardColumn (name, board_id, column_order) VALUES($1, $2, $3)", 
-      [name, boardId, order])
+      "INSERT INTO boardColumn (name, board_id, column_order, color) VALUES($1, $2, $3, $4)", 
+      [name, boardId, order, color])
     res.status(200).json("Board column created")
   } catch (error) {
     console.log(error)
@@ -39,9 +39,9 @@ router.use(express.json())
 router.put('/:id', async (req, res)=> {
   try {
     const { id } = req.params;
-    const { name } = req.body;
-    await db.query("UPDATE boardColumn SET name = $1 WHERE id = $2", 
-    [name, id])
+    const { name, color } = req.body;
+    await db.query("UPDATE boardColumn SET name = $1, color = $2 WHERE id = $3", 
+    [name, color, id])
     res.json('Board column updated')
   } catch (error) {
     console.log(error)

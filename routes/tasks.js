@@ -40,6 +40,7 @@ router.use(express.json())
 router.put('/:id', async (req, res)=> {
   const { title, description, board_column_id } = req.body;
   const { id } = req.params;
+  
   try {
     await db.query(
       "UPDATE task SET title = $1, description = $2, board_column_id = $3 WHERE id = $4", 
